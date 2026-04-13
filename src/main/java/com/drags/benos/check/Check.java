@@ -1,7 +1,7 @@
 package com.drags.benos.check;
 
 import com.drags.benos.PlayerData;
-import com.github.retrooper.packetevents.event.PacketEvent;
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 
 public abstract class Check {
     protected final PlayerData data;
@@ -10,5 +10,5 @@ public abstract class Check {
         this.data = data;
     }
 
-    public void onPacket(PacketEvent event) {}
+    public void onPacket(PacketReceiveEvent event) {}
 }

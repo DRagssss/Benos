@@ -6,7 +6,7 @@
 
   <groupId>com.drags.benos</groupId>
   <artifactId>benos</artifactId>
-  <version>1.8.9</version>
+  <version>0.0</version>
   <packaging>jar</packaging>
 
   <name>Benos</name>

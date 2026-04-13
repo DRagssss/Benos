@@ -1,3 +1,4 @@
 name: Benos
 version: '${project.version}'
 main: com.drags.benos.Benos
+depend: [packetevents]

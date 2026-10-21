@@ -11,7 +11,7 @@ public class PlayerData {
 
     public PlayerData(UUID playerId) {
         this.playerId = playerId;
-        this.checkManager = new CheckManager(this);
+        this.checkManager = new CheckManager();
     }
 
     public UUID getPlayerId() {

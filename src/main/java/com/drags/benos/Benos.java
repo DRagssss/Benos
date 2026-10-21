@@ -3,7 +3,6 @@ package com.drags.benos;
 import com.drags.benos.listener.ListenerManager;
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Benos extends JavaPlugin {
@@ -20,7 +19,7 @@ public final class Benos extends JavaPlugin {
         PacketEvents.getAPI().init();
         listenerManager = new ListenerManager(this);
         listenerManager.registerListeners();
-        Bukkit.getServer().getLogger().info("Benos has been enabled.");
+        this.getLogger().info("Benos v" + this.getPluginMeta().getVersion() + " has been enabled.");
     }
 
     @Override
@@ -34,6 +33,6 @@ public final class Benos extends JavaPlugin {
             PacketEvents.getAPI().terminate();
         }
 
-        Bukkit.getServer().getLogger().info("Benos has been disabled.");
+        this.getLogger().info("Benos v" + this.getPluginMeta().getVersion() + " has been disabled.");
     }
 }

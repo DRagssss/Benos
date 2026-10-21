@@ -9,9 +9,9 @@ public class PlayerData {
     private final UUID playerId;
     private final CheckManager checkManager;
 
-    public PlayerData(UUID playerId) {
+    public PlayerData(Benos plugin, UUID playerId) {
         this.playerId = playerId;
-        this.checkManager = new CheckManager();
+        this.checkManager = new CheckManager(plugin, this);
     }
 
     public UUID getPlayerId() {

@@ -11,7 +11,7 @@ public class CheckManager {
     private final List<Check> checks = new ArrayList<>();
 
     public CheckManager(Benos plugin, PlayerData playerData) {
-        checks.add(new AttackA(plugin, playerData));
+        checks.add(new Reach(plugin, playerData));
     }
 
     public void handlePacket(PacketReceiveEvent event) {

@@ -1,6 +1,5 @@
 package com.drags.benos.listener;
 
-import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,17 +10,15 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class PlayerConnectionListener implements Listener {
-    private final Benos plugin;
     private final Map<UUID, PlayerData> playerDataMap;
 
-    public PlayerConnectionListener(Benos plugin, Map<UUID, PlayerData> playerDataMap) {
-        this.plugin = plugin;
+    public PlayerConnectionListener(Map<UUID, PlayerData> playerDataMap) {
         this.playerDataMap = playerDataMap;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        playerDataMap.computeIfAbsent(event.getPlayer().getUniqueId(), id -> new PlayerData(plugin, id));
+        playerDataMap.computeIfAbsent(event.getPlayer().getUniqueId(), id -> new PlayerData(id));
     }
 
     @EventHandler

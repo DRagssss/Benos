@@ -19,7 +19,7 @@ public final class Benos extends JavaPlugin {
     public void onEnable() {
         instance = this;
         PacketEvents.getAPI().init();
-        listenerManager = new ListenerManager(this);
+        listenerManager = new ListenerManager();
         listenerManager.registerListeners();
         this.getLogger().info("Benos v" + this.getPluginMeta().getVersion() + " has been enabled.");
     }

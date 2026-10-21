@@ -1,6 +1,5 @@
 package com.drags.benos.check;
 
-import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CAttack;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
@@ -10,8 +9,8 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAt
 public class Reach extends Check {
 
 
-    public Reach(Benos plugin, PlayerData playerData) {
-        super(plugin, playerData);
+    public Reach(PlayerData playerData) {
+        super(playerData);
     }
 
     @Override
@@ -20,7 +19,7 @@ public class Reach extends Check {
             WrapperPlayClientAttack packet = new WrapperPlayClientAttack(event);
             CAttack nhPacket = new CAttack(packet.getEntityId());
 
-
+            // continue check logic here
         }
     }
 }

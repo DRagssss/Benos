@@ -13,23 +13,21 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class ListenerManager {
-    private final Benos plugin;
     private final Map<UUID, PlayerData> playerDataMap = new ConcurrentHashMap<>();
     private final PacketListenerCommon incomingPacketListener = new IncomingPacketListener(playerDataMap);
     private final PlayerConnectionListener playerConnectionListener;
 
-    public ListenerManager(Benos plugin) {
-        this.plugin = plugin;
-        this.playerConnectionListener = new PlayerConnectionListener(plugin, playerDataMap);
+    public ListenerManager() {
+        this.playerConnectionListener = new PlayerConnectionListener(playerDataMap);
     }
 
     public void registerListeners() {
         PacketEvents.getAPI().getEventManager().registerListener(incomingPacketListener);
-        Bukkit.getPluginManager().registerEvents(playerConnectionListener, plugin);
+        Bukkit.getPluginManager().registerEvents(playerConnectionListener, Benos.getInstance());
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             playerDataMap.computeIfAbsent(
-                    onlinePlayer.getUniqueId(), id -> new PlayerData(plugin, id));
+                    onlinePlayer.getUniqueId(), id -> new PlayerData(id));
         }
     }
 

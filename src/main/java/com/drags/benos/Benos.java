@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Benos extends JavaPlugin {
     private ListenerManager listenerManager;
+    private static Benos instance;
 
     @Override
     public void onLoad() {
@@ -16,6 +17,7 @@ public final class Benos extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         PacketEvents.getAPI().init();
         listenerManager = new ListenerManager(this);
         listenerManager.registerListeners();
@@ -34,5 +36,9 @@ public final class Benos extends JavaPlugin {
         }
 
         this.getLogger().info("Benos v" + this.getPluginMeta().getVersion() + " has been disabled.");
+    }
+
+    public static Benos getInstance() {
+        return instance;
     }
 }

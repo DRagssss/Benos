@@ -2,7 +2,7 @@ package com.drags.benos.packets.serverbound;
 
 /**
  * Official Name: move_player_pos_rot
- * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets#Set_Player_Position_and_Rotation">Minecraft Wiki</a>
+ * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets?oldid=3786274#Set_Player_Position_and_Rotation">Minecraft Wiki</a>
  */
 public class CSetPlayerPositionRotation extends CSetPlayerPosition {
 

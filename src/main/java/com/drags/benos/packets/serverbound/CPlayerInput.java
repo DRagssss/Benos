@@ -5,7 +5,7 @@ import com.drags.benos.packets.PacketCategory;
 
 /**
  * Official Name: player_input
- * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets#Player_Input">Minecraft Wiki</a>
+ * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets?oldid=3786274#Player_Input">Minecraft Wiki</a>
  */
 public class CPlayerInput extends NHPacket {
     /**

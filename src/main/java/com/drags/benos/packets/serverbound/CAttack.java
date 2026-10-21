@@ -5,7 +5,7 @@ import com.drags.benos.packets.PacketCategory;
 
 /**
  * Official Name: attack
- * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets#Attack">Minecraft Wiki</a>
+ * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets?oldid=3786274#Attack">Minecraft Wiki</a>
  */
 public class CAttack extends NHPacket {
     /**

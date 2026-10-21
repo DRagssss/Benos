@@ -4,7 +4,7 @@ import com.drags.benos.packets.PacketCategory;
 
 /**
  * Official Name: move_player_pos
- * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets#Set_Player_Position">Minecraft Wiki</a>
+ * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets?oldid=3786274#Set_Player_Position">Minecraft Wiki</a>
  */
 public class CSetPlayerPosition extends CSetPlayerMovementFlags {
     /**

@@ -5,7 +5,7 @@ import com.drags.benos.packets.PacketCategory;
 
 /**
  * Official Name: move_player_status_only
- * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets#Set_Player_Movement_Flags">Minecraft Wiki</a>
+ * @see <a href="https://minecraft.wiki/w/Java_Edition_protocol/Packets?oldid=3786274#Set_Player_Movement_Flags">Minecraft Wiki</a>
  */
 public class CSetPlayerMovementFlags extends NHPacket {
 

@@ -27,7 +27,7 @@ public final class ListenerManager {
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             playerDataMap.computeIfAbsent(
-                    onlinePlayer.getUniqueId(), id -> new PlayerData(id));
+                    onlinePlayer.getUniqueId(), PlayerData::new);
         }
     }
 

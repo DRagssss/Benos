@@ -16,8 +16,8 @@ public class CSetPlayerRotation extends CSetPlayerMovementFlags {
      */
     public final float pitch;
 
-    public CSetPlayerRotation(float yaw, float pitch, byte flags) {
-        super(flags);
+    public CSetPlayerRotation(float yaw, float pitch, boolean onGround, boolean pushingAgainstWall) {
+        super(onGround, pushingAgainstWall);
         this.yaw = yaw;
         this.pitch = pitch;
         this.packetId = 0x1E; // override CSetPlayerMovementFlags's packetId

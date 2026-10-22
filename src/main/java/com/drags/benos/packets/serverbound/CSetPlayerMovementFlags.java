@@ -19,6 +19,18 @@ public class CSetPlayerMovementFlags extends NHPacket {
         this.flags = flags;
     }
 
+    public CSetPlayerMovementFlags(boolean onGround, boolean pushingAgainstWall) {
+        byte flags = 0;
+        if (onGround) {
+            flags |= 0x01;
+        }
+        if (pushingAgainstWall) {
+            flags |= 0x02;
+        }
+        super(PacketCategory.PLAY, 0x21);
+        this.flags = flags;
+    }
+
     public boolean isOnGround() {
         return (flags & 0x01) != 0;
     }

@@ -20,8 +20,8 @@ public class CSetPlayerPosition extends CSetPlayerMovementFlags {
      */
     public final double z;
 
-    public CSetPlayerPosition(double x, double feetY, double z, byte flags) {
-        super(flags);
+    public CSetPlayerPosition(double x, double feetY, double z, boolean onGround, boolean pushingAgainstWall) {
+        super(onGround, pushingAgainstWall);
         this.x = x;
         this.feetY = feetY;
         this.z = z;

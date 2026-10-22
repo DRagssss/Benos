@@ -18,7 +18,7 @@ public final class PlayerConnectionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        playerDataMap.computeIfAbsent(event.getPlayer().getUniqueId(), id -> new PlayerData(id));
+        playerDataMap.computeIfAbsent(event.getPlayer().getUniqueId(), PlayerData::new);
     }
 
     @EventHandler

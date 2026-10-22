@@ -1,6 +1,5 @@
 package com.drags.benos.data;
 
-import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CSetPlayerMovementFlags;
 import com.drags.benos.packets.serverbound.CSetPlayerPosition;
@@ -18,8 +17,6 @@ public class Movement {
     private boolean onGround = false;
     private boolean pushingAgainstWall = false;
     private double x;
-    private float yaw;
-    private float pitch;
 
     /**
      * Absolute feet position, normally Head Y - 1.62.
@@ -27,6 +24,9 @@ public class Movement {
     private double feetY;
 
     private double z;
+
+    private float yaw;
+    private float pitch;
 
     public Movement(PlayerData data) {
         this.data = data;
@@ -60,7 +60,29 @@ public class Movement {
                 this.pitch = rotationPacket.pitch;
             }
         }
+    }
 
-        Benos.getInstance().getLogger().info(data.playerId.toString() + " " + x + " " + feetY + " " + z + " " + yaw + " " + pitch + " " + onGround + " " + pushingAgainstWall);
+    public double getX() {
+        return x;
+    }
+
+    public double getFeetY() {
+        return feetY;
+    }
+
+    public double getHeadY() {
+        return feetY + 1.62;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public float getYaw() {
+        return yaw;
+    }
+
+    public float getPitch() {
+        return pitch;
     }
 }

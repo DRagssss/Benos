@@ -4,6 +4,8 @@ import com.drags.benos.check.CheckManager;
 import com.drags.benos.data.Keystrokes;
 import com.drags.benos.data.Movement;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -22,8 +24,8 @@ public class PlayerData {
         this.checkManager = new CheckManager(this);
     }
 
-    public UUID getPlayerId() {
-        return playerId;
+    public Player getPlayer() {
+        return Bukkit.getPlayer(playerId);
     }
 
     public void handlePacket(PacketReceiveEvent event) {

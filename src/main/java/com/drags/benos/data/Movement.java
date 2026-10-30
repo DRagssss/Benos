@@ -70,8 +70,8 @@ public class Movement {
         return feetY;
     }
 
-    public double getHeadY() {
-        return feetY + 1.62;
+    public double getHeadY(boolean crouching) {
+        return feetY + (crouching ? 1.54 : 1.62);
     }
 
     public double getZ() {

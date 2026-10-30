@@ -3,6 +3,8 @@ package com.drags.benos.check;
 import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CAttack;
+import com.drags.benos.utils.Hitbox;
+import com.drags.benos.utils.Ray;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAttack;
@@ -37,9 +39,15 @@ public class Reach extends Check {
             assert entity != null;
             Location eLocation = entity.getLocation();
 
+            Hitbox hitbox = new Hitbox(entity);
+
+            Ray ray = new Ray(data.movement);
+
+
+
             double distance = Math.sqrt(
                     Math.pow(data.movement.getX() - eLocation.getX(), 2) +
-                            Math.pow(data.movement.getHeadY() - eLocation.getY(), 2) +
+                            Math.pow(data.movement.getHeadY(data.strokingIt.isCrouching()) - eLocation.getY(), 2) +
                             Math.pow(data.movement.getZ() - eLocation.getZ(), 2)
             );
 

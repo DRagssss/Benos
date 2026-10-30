@@ -46,6 +46,9 @@ public class Keystrokes {
         this.holdingSpace = nhPacket.isHoldingSpace();
         this.holdingSneak = nhPacket.isHoldingSneak();
         this.holdingSprint = nhPacket.isHoldingSprint();
+    }
 
+    public boolean isCrouching() {
+        return holdingSneak;
     }
 }

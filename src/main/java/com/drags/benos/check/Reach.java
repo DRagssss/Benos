@@ -36,7 +36,7 @@ public class Reach extends Check {
                     nhPacket.entityId
             );
 
-            assert entity != null;
+            if (entity == null) return;
             Location eLocation = entity.getLocation();
 
             Hitbox hitbox = new Hitbox(entity);

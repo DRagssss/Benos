@@ -3,12 +3,11 @@ package com.drags.benos.check;
 import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CAttack;
-import com.drags.benos.utils.Hitbox;
-import com.drags.benos.utils.Ray;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAttack;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,38 +21,31 @@ public class Reach extends Check {
 
     @Override
     public void onPacket(PacketReceiveEvent event) {
-        if (event.getPacketType() == PacketType.Play.Client.ATTACK) {
-            WrapperPlayClientAttack packet = new WrapperPlayClientAttack(event);
-            CAttack nhPacket = new CAttack(packet.getEntityId());
+        if (event.getPacketType() != PacketType.Play.Client.ATTACK) return;
 
+        WrapperPlayClientAttack packet = new WrapperPlayClientAttack(event);
+        CAttack nhPacket = new CAttack(packet.getEntityId());
+
+        double px = data.movement.getX();
+        double py = data.movement.getHeadY(data.strokingIt.isCrouching());
+        double pz = data.movement.getZ();
+
+        Bukkit.getScheduler().runTask(Benos.getInstance(), () -> {
             Player player = data.getPlayer();
-            if (player == null || !player.isOnline()) {
-                return;
-            }
+            if (player == null) return;
 
-            Entity entity = SpigotConversionUtil.getEntityById(
-                    player.getWorld(),
-                    nhPacket.entityId
-            );
-
+            Entity entity = SpigotConversionUtil.getEntityById(player.getWorld(), nhPacket.entityId);
             if (entity == null) return;
+
             Location eLocation = entity.getLocation();
-
-            Hitbox hitbox = new Hitbox(entity);
-
-            Ray ray = new Ray(data.movement);
-
-
-
-            double distance = Math.sqrt(
-                    Math.pow(data.movement.getX() - eLocation.getX(), 2) +
-                            Math.pow(data.movement.getHeadY(data.strokingIt.isCrouching()) - eLocation.getY(), 2) +
-                            Math.pow(data.movement.getZ() - eLocation.getZ(), 2)
-            );
+            double dx = px - eLocation.getX();
+            double dy = py - eLocation.getY();
+            double dz = pz - eLocation.getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
             if (distance > 3.0) {
                 Benos.getInstance().getLogger().info("Player " + player.getName() + " attacked entity " + entity.getName() + " with reach distance: " + distance);
             }
-        }
+        });
     }
 }

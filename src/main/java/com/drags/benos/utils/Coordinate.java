@@ -11,8 +11,20 @@ public class Coordinate {
         this.z = z;
     }
 
-    public Coordinate move(double dX, double dY, double dZ) {
-        return new Coordinate(x+dX, y+dY, z+dZ);
+    private Coordinate move(Vector v) {
+        return new Coordinate(x+v.getX(), y+v.getY(), z+v.getZ());
+    }
+
+    public Coordinate add(Vector v) {
+        return move(v);
+    }
+
+    public Coordinate subtract(Vector v) {
+        return move(v.negate());
+    }
+
+    public Vector subtract(Coordinate c) {
+        return new Vector(x-c.getX(), y-c.getY(), z-c.getZ());
     }
 
     public double getX() {

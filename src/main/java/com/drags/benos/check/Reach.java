@@ -3,6 +3,7 @@ package com.drags.benos.check;
 import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CAttack;
+import com.drags.benos.utils.Coordinate;
 import com.drags.benos.utils.Hitbox;
 import com.drags.benos.utils.Ray;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
@@ -37,23 +38,27 @@ public class Reach extends Check {
             );
 
             if (entity == null) return;
-            Location eLocation = entity.getLocation();
 
             Hitbox hitbox = new Hitbox(entity);
 
-            Ray ray = new Ray(data.movement);
+            Ray ray = new Ray(data.movement, data.strokingIt.isCrouching());
 
+            Coordinate intersection = hitbox.intersect(ray);
 
+            if (intersection == null) {
+                Benos.getInstance().getLogger().info("Player " + player.getName() + " attacked entity " + entity.getName() + " without aiming at them");
+                return;
+            }
 
             double distance = Math.sqrt(
-                    Math.pow(data.movement.getX() - eLocation.getX(), 2) +
-                            Math.pow(data.movement.getHeadY(data.strokingIt.isCrouching()) - eLocation.getY(), 2) +
-                            Math.pow(data.movement.getZ() - eLocation.getZ(), 2)
+                    Math.pow(data.movement.getX() - intersection.getX(), 2) +
+                            Math.pow(data.movement.getHeadY(data.strokingIt.isCrouching()) - intersection.getY(), 2) +
+                            Math.pow(data.movement.getZ() - intersection.getZ(), 2)
             );
 
-            if (distance > 3.0) {
-                Benos.getInstance().getLogger().info("Player " + player.getName() + " attacked entity " + entity.getName() + " with reach distance: " + distance);
-            }
+
+            Benos.getInstance().getLogger().info("Player " + player.getName() + " attacked entity " + entity.getName() + " with reach distance: " + distance);
+
         }
     }
 }

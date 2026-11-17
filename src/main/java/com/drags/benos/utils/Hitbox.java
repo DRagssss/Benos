@@ -46,15 +46,19 @@ public class Hitbox {
         Location location = entity.getLocation();
 
         // Offsets relative to the entity's position, so non-centred boxes (e.g. paintings, shulkers) stay correct.
-        this.minCoordinate = position.move(
+        this.minCoordinate = position.add(
+                new Vector(
             box.getMinX() - location.getX(),
             box.getMinY() - location.getY(),
             box.getMinZ() - location.getZ()
+                )
         );
-        this.maxCoordinate = position.move(
+        this.maxCoordinate = position.add(
+                new Vector(
             box.getMaxX() - location.getX(),
             box.getMaxY() - location.getY(),
             box.getMaxZ() - location.getZ()
+                )
         );
     }
 
@@ -72,10 +76,29 @@ public class Hitbox {
     /**
      * Calculate the coordinate where a ray collides with this hitbox using the <a href="https://en.wikipedia.org/wiki/Slab_method">Slab method</a>.
      * @param ray The ray to check for intersection with this hitbox.
-     * @return Coordinate of intersection if the ray intersects the hitbox, otherwise null.
+     * @return Coordinate of closest intersection if the ray intersects the hitbox, otherwise null.
      */
     @Nullable
     public Coordinate intersect(Ray ray) {
-        return null; // ts too hard 🥀
+        Coordinate o = ray.getOrigin();
+        Vector r = ray.getUnitVector();
+        Coordinate l = minCoordinate;
+        Coordinate h = maxCoordinate;
+
+        Vector tLow = l.subtract(o).divide(r);
+        Vector tHigh = h.subtract(o).divide(r);
+
+        Vector tClose = tLow.min(tHigh);
+        Vector tFar = tLow.max(tHigh);
+
+        double tMin = tClose.maxComponent();
+        double tMax = tFar.minComponent();
+
+        if (tMin > tMax || tMax < 0) {
+            return null;
+        }
+
+        double t = Math.max(tMin, 0);
+        return o.add(r.multiply(t));
     }
 }

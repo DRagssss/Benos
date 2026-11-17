@@ -13,25 +13,30 @@ public class Ray {
         this.pitch = Math.toRadians(pitchDeg);
     }
 
-    public Ray(Movement movement) {
-        this.origin = new Coordinate(movement.getX(), movement.getFeetY(), movement.getZ());
+    public Ray(Movement movement, boolean crouching) {
+        this.origin = new Coordinate(movement.getX(), movement.getHeadY(crouching), movement.getZ());
         this.yaw = Math.toRadians(movement.getYaw());
         this.pitch = Math.toRadians(movement.getPitch());
     }
+
+    public Coordinate getOrigin() {return origin;}
 
     public Coordinate getPoint(double range) {
         double lengthX = -range * Math.sin(yaw) * Math.cos(pitch);
         double lengthY = -range * Math.sin(pitch);
         double lengthZ = range * Math.cos(yaw) * Math.cos(pitch);
 
-        return origin.move(lengthX, lengthY, lengthZ);
-    }
-
-    public Segment getSegment(double range) {
-        return new Segment(origin.getX(), origin.getY(), origin.getZ(), Math.toDegrees(yaw), Math.toDegrees(pitch), range);
+        return origin.add(new Vector(lengthX, lengthY, lengthZ));
     }
 
     public Vector getVector(double length) {
-        return new Vector(pitch, yaw, roll, length);
+        return new Vector(
+                -length * Math.sin(yaw) * Math.cos(pitch),
+                -length * Math.sin(pitch),
+                length * Math.cos(yaw) * Math.cos(pitch));
+    }
+
+    public Vector getUnitVector() {
+        return getVector(1);
     }
 }

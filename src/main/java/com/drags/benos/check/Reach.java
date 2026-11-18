@@ -80,8 +80,6 @@ public class Reach extends Check {
                 return;
             }
 
-            Benos.getInstance().getLogger().info("" + movAtRayTracingCalc.getHeadY(data.strokingIt.isCrouching()));
-
             double distance = Math.sqrt(
                     Math.pow(movAtRayTracingCalc.getX() - intersection.getX(), 2) +
                             Math.pow(movAtRayTracingCalc.getHeadY(data.strokingIt.isCrouching()) - intersection.getY(), 2) +

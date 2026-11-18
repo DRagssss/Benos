@@ -2,6 +2,7 @@ package com.drags.benos.check;
 
 import com.drags.benos.Benos;
 import com.drags.benos.PlayerData;
+import com.drags.benos.data.Movement;
 import com.drags.benos.packets.serverbound.CAttack;
 import com.drags.benos.utils.Coordinate;
 import com.drags.benos.utils.Hitbox;
@@ -14,7 +15,23 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class Reach extends Check {
+
+    /**
+     Vanilla clients calculate yaw and pitch then send the relevant packets in this order per tick.
+     1. Attack
+     2. Movement.
+
+     It performs the ray tracing to see if the attack is possible *before* it has the new position, but it already calculated yaw and pitch.
+
+     The goal is to do the ray tracing check with the same data as the vanilla client so we need to use the previous tick's position.
+     **/
+    Coordinate posAtLastAttack = null;
+
+    Integer lastAttackEntityId = null; // Integer instead of int so it cna be null
+
 
 
     public Reach(PlayerData data) {
@@ -32,16 +49,29 @@ public class Reach extends Check {
                 return;
             }
 
+            lastAttackEntityId = nhPacket.entityId;
+            posAtLastAttack = new Coordinate(data.movement.getX(), data.movement.getFeetY(), data.movement.getZ());
+        }
+        else if (data.movement.isMovementPacket(event.getPacketType())) {
+            if (lastAttackEntityId == null) return;
+
+            Player player = data.getPlayer();
+
             Entity entity = SpigotConversionUtil.getEntityById(
                     player.getWorld(),
-                    nhPacket.entityId
+                    lastAttackEntityId
             );
+            lastAttackEntityId = null;
 
             if (entity == null) return;
 
+            // make a copy of movement with the same position data as the client had when it performed the ray tracing check
+            Movement movAtRayTracingCalc = new Movement(data.movement);
+            movAtRayTracingCalc.setCoordinate(posAtLastAttack);
+
             Hitbox hitbox = new Hitbox(entity);
 
-            Ray ray = new Ray(data.movement, data.strokingIt.isCrouching());
+            Ray ray = new Ray(movAtRayTracingCalc, data.strokingIt.isCrouching());
 
             Coordinate intersection = hitbox.intersect(ray);
 
@@ -50,10 +80,12 @@ public class Reach extends Check {
                 return;
             }
 
+            Benos.getInstance().getLogger().info("" + movAtRayTracingCalc.getHeadY(data.strokingIt.isCrouching()));
+
             double distance = Math.sqrt(
-                    Math.pow(data.movement.getX() - intersection.getX(), 2) +
-                            Math.pow(data.movement.getHeadY(data.strokingIt.isCrouching()) - intersection.getY(), 2) +
-                            Math.pow(data.movement.getZ() - intersection.getZ(), 2)
+                    Math.pow(movAtRayTracingCalc.getX() - intersection.getX(), 2) +
+                            Math.pow(movAtRayTracingCalc.getHeadY(data.strokingIt.isCrouching()) - intersection.getY(), 2) +
+                            Math.pow(movAtRayTracingCalc.getZ() - intersection.getZ(), 2)
             );
 
 

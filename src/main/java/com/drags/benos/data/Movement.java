@@ -4,8 +4,10 @@ import com.drags.benos.PlayerData;
 import com.drags.benos.packets.serverbound.CSetPlayerMovementFlags;
 import com.drags.benos.packets.serverbound.CSetPlayerPosition;
 import com.drags.benos.packets.serverbound.CSetPlayerRotation;
+import com.drags.benos.utils.Coordinate;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 
@@ -32,11 +34,26 @@ public class Movement {
         this.data = data;
     }
 
-    public void handlePacket(PacketReceiveEvent event) {
-        if (Arrays.asList(PacketType.Play.Client.PLAYER_FLYING,
+    public Movement(Movement other) {
+        this.data = other.data;
+        this.onGround = other.onGround;
+        this.pushingAgainstWall = other.pushingAgainstWall;
+        this.x = other.x;
+        this.feetY = other.feetY;
+        this.z = other.z;
+        this.yaw = other.yaw;
+        this.pitch = other.pitch;
+    }
+
+    public boolean isMovementPacket(PacketTypeCommon packetType) {
+        return Arrays.asList(PacketType.Play.Client.PLAYER_FLYING,
                 PacketType.Play.Client.PLAYER_POSITION,
                 PacketType.Play.Client.PLAYER_ROTATION,
-                PacketType.Play.Client.PLAYER_POSITION_AND_ROTATION).contains(event.getPacketType())) {
+                PacketType.Play.Client.PLAYER_POSITION_AND_ROTATION).contains(packetType);
+    }
+
+    public void handlePacket(PacketReceiveEvent event) {
+        if (isMovementPacket(event.getPacketType())) {
             WrapperPlayClientPlayerFlying packet = new WrapperPlayClientPlayerFlying(event);
             CSetPlayerMovementFlags nhPacket = new CSetPlayerMovementFlags(packet.isOnGround(), packet.isHorizontalCollision());
 
@@ -62,6 +79,12 @@ public class Movement {
         }
     }
 
+    public void setCoordinate(Coordinate coordinate) {
+        x = coordinate.getX();
+        feetY = coordinate.getY();
+        z = coordinate.getZ();
+    }
+
     public double getX() {
         return x;
     }
@@ -71,7 +94,7 @@ public class Movement {
     }
 
     public double getHeadY(boolean crouching) {
-        return feetY + (crouching ? 1.54 : 1.62);
+        return feetY + (crouching ? 1.27 : 1.62);
     }
 
     public double getZ() {
